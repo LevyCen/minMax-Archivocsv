@@ -6,22 +6,31 @@ mini = 100
 maximo = 0
 total = 0
 dic = {} #diccionario vacio
+columnaAnio =  0
+columnaMes =  0
+columnaDia =  0
+columnaHora =  0
 
-#Se busca los archivos csv para trabajar
+#Se buscan todos los archivos csv del directorio
 for fileCSV in listdir("."):
     ext = split(fileCSV,'.')
     if not ext[1]=="csv":
         continue
 
     dic.clear()
-
+    #Se abre el archivo csv
     f = open("fichero_salida_2015938.csv")
     #f = open(fileCSV)
 
     for lineaDeCSV in f:
         tok = split(lineaDeCSV,',')
         #print tok
+        columnaAnio =  strip(tok[8])
+        columnaMes =  strip(tok[7])
+        columnaDia =  strip(tok[6])
+        columnaHora =  strip(tok[9])
         minuto = strip(tok[10])
+
         if not dic.has_key(tok[4]):
             dic.update( {tok[4]: {minuto: 0}})  # diccionario con AP como clave
         else:
@@ -56,11 +65,10 @@ for fileCSV in listdir("."):
         print ("Total en la hr: ",total)
         print ("total minutos registrados: ", len(dic[AP].values()) )
         """
-        stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values()))
+        stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)
         print stringResultados
+        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'_'+ str(columnaDia) +'_'+ str(columnaHora)+'.csv'
 
         mini=100
-        maximo=0
+        maximo=00
         total=0
-
-
