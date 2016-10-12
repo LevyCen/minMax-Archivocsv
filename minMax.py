@@ -20,9 +20,10 @@ for fileCSV in listdir("."):
 
     dic.clear()
     #Se abre el archivo csv
-    f = open("fichero_salida_2015938.csv")
-    #f = open(fileCSV)
+    #f = open("fichero_salida_2015938.csv")
+    f = open(fileCSV)
 
+    #Se extrae linea por linea del archivo csv
     for lineaDeCSV in f:
         tok = split(lineaDeCSV,',')
         #print tok
@@ -43,9 +44,9 @@ for fileCSV in listdir("."):
 
     #print dic
     print ("Total de AP: ",len(dic))
-
+    print dic
     for AP in dic:
-        #print AP
+        print AP
         numeroLectura = 0
         for nDev in dic[AP].values():
             #print nDev
@@ -67,9 +68,11 @@ for fileCSV in listdir("."):
         print ("Total en la hr: ",total)
         print ("total minutos registrados: ", len(dic[AP].values()) )
         """
+        #resultados se compone por:
+        # nombre del AP, minimo de conexiones, maximo de conexiones, suma total de conexiones, numero de conexiones registradas, ani, mes, dia, hora
         stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
         #print stringResultados
-        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'_'+ str(columnaDia) +'_'+ str(columnaHora)+'.csv'
+        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'_'+ str(columnaDia) +'.csv'
         print namefileResult
 
         #Creamos el archivo
@@ -78,5 +81,5 @@ for fileCSV in listdir("."):
         resultados.close()
 
         mini=100
-        maximo=00
+        maximo=0
         total=0
