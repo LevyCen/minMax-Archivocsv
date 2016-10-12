@@ -6,6 +6,7 @@ mini = 100
 maximo = 0
 total = 0
 dic = {} #diccionario vacio
+#Variables para conocer la fecha del registro
 columnaAnio =  0
 columnaMes =  0
 columnaDia =  0
@@ -45,6 +46,7 @@ for fileCSV in listdir("."):
 
     for AP in dic:
         #print AP
+        numeroLectura = 0
         for nDev in dic[AP].values():
             #print nDev
             if nDev<mini:
@@ -65,9 +67,15 @@ for fileCSV in listdir("."):
         print ("Total en la hr: ",total)
         print ("total minutos registrados: ", len(dic[AP].values()) )
         """
-        stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)
-        print stringResultados
+        stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
+        #print stringResultados
         namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'_'+ str(columnaDia) +'_'+ str(columnaHora)+'.csv'
+        print namefileResult
+
+        #Creamos el archivo
+        resultados = open(namefileResult,'a+')
+        resultados.write(stringResultados)
+        resultados.close()
 
         mini=100
         maximo=00
