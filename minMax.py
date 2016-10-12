@@ -1,10 +1,7 @@
 from string import *
 from os import listdir
 
-#Variables
-mini = 100
-maximo = 0
-total = 0
+#Variables necesariamente globales
 dic = {} #diccionario vacio
 #Variables para conocer la fecha del registro
 columnaAnio =  0
@@ -13,15 +10,18 @@ columnaDia =  0
 columnaHora =  0
 
 #Se buscan todos los archivos csv del directorio
-for fileCSV in listdir("."):
-    ext = split(fileCSV,'.')
-    if not ext[1]=="csv":
-        continue
+for directoryFile in listdir("."):
+    fileTypeNecessary = 'csv'
 
+    #se descarta los archivos que no sean csv
+    nameFile = split(directoryFile,'.')
+    if not nameFile[1]==fileTypeNecessary:
+        continue
+    nameFileCSV=directoryFile
     dic.clear()
     #Se abre el archivo csv
     #f = open("fichero_salida_2015938.csv")
-    f = open(fileCSV)
+    f = open(nameFileCSV)
 
     #Se extrae linea por linea del archivo csv
     for lineaDeCSV in f:
@@ -44,10 +44,15 @@ for fileCSV in listdir("."):
 
     #print dic
     print ("Total de AP: ",len(dic))
-    print dic
+
     for AP in dic:
-        print AP
+
+        #reinicializamos variables
+        mini=100
+        maximo=0
+        total=0
         numeroLectura = 0
+
         for nDev in dic[AP].values():
             #print nDev
             if nDev<mini:
@@ -56,25 +61,27 @@ for fileCSV in listdir("."):
                 maximo=nDev
             total=total+nDev
 
-        #Se revisa si el numero de rigistros en una hora fue de 30
+        #Se revisa si el numero de registros en una hora fue de 30
+        #Repara el error de cuando en un AP no se registran cero usuarios
         minutosRegistrados = len(dic[AP].values())
         minutosRegCompletos = 30
         if minutosRegistrados < minutosRegCompletos:
             mini = 0
 
-        #resultados se compone por:
+        #Nomenclatura de stringResultados:
         # nombre del AP, minimo de conexiones, maximo de conexiones, suma total de conexiones, numero de conexiones registradas, ani, mes, dia, hora
-        stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
-        #print stringResultados
-        #nomenclatura: nombre del archivo_[anio]_[mes].csv
-        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'.csv'
-        print namefileResult + str(columnaAnio) + str(columnaMes)+ str(columnaDia)+ str(columnaHora)
+        stringResultados = str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
 
-        #Creamos el archivo
+
+        #nomenclatura del csv de resultados: nombre del archivo_[anio]_[mes].csv
+        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'.csv'
+
+        #log de los AP analizados
+        print str(AP) + str(columnaAnio) + str(columnaMes)+ str(columnaDia)+ str(columnaHora)
+
+        #Crea y edita el archivo csv con los resultados
         resultados = open(namefileResult,'a+')
         resultados.write(stringResultados)
         resultados.close()
 
-        mini=100
-        maximo=0
-        total=0
+
