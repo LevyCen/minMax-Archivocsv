@@ -56,24 +56,19 @@ for fileCSV in listdir("."):
                 maximo=nDev
             total=total+nDev
 
+        #Se revisa si el numero de rigistros en una hora fue de 30
         minutosRegistrados = len(dic[AP].values())
         minutosRegCompletos = 30
         if minutosRegistrados < minutosRegCompletos:
             mini = 0
 
-        """
-        print(AP)
-        print ("Minimo de dispositivos: ",mini)
-        print ("Maximo de dispositivos: ",maximo)
-        print ("Total en la hr: ",total)
-        print ("total minutos registrados: ", len(dic[AP].values()) )
-        """
         #resultados se compone por:
         # nombre del AP, minimo de conexiones, maximo de conexiones, suma total de conexiones, numero de conexiones registradas, ani, mes, dia, hora
         stringResultados = '' + str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
         #print stringResultados
-        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'_'+ str(columnaDia) +'.csv'
-        print namefileResult
+        #nomenclatura: nombre del archivo_[anio]_[mes].csv
+        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'.csv'
+        print namefileResult + str(columnaAnio) + str(columnaMes)+ str(columnaDia)+ str(columnaHora)
 
         #Creamos el archivo
         resultados = open(namefileResult,'a+')
