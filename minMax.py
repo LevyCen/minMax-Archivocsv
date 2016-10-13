@@ -2,7 +2,7 @@ from string import *
 from os import listdir
 
 #Variables necesariamente globales
-dic = {} #diccionario vacio
+diccAP = {} #diccionario vacio
 #Variables para conocer la fecha del registro
 columnaAnio =  0
 columnaMes =  0
@@ -18,61 +18,65 @@ for directoryFile in listdir("."):
     if not nameFile[1]==fileTypeNecessary:
         continue
     nameFileCSV=directoryFile
-    dic.clear()
+    diccAP.clear()
     #Se abre el archivo csv
     #f = open("fichero_salida_2015938.csv")
     f = open(nameFileCSV)
 
     #Se extrae linea por linea del archivo csv
     for lineaDeCSV in f:
-        tok = split(lineaDeCSV,',')
-        #print tok
-        columnaAnio =  strip(tok[8])
-        columnaMes =  strip(tok[7])
-        columnaDia =  strip(tok[6])
-        columnaHora =  strip(tok[9])
-        minuto = strip(tok[10])
+        lineaLeidaCSV = split(lineaDeCSV,',')
+        
+        columnaAnio =  strip(lineaLeidaCSV[8])
+        columnaMes =  strip(lineaLeidaCSV[7])
+        columnaDia =  strip(lineaLeidaCSV[6])
+        columnaHora =  strip(lineaLeidaCSV[9])
+        columMinuto = strip(lineaLeidaCSV[10])
 
-        if not dic.has_key(tok[4]):
-            dic.update( {tok[4]: {minuto: 0}})  # diccionario con AP como clave
+        posicionNombreAP=int(4)
+
+        if not diccAP.has_key(lineaLeidaCSV[posicionNombreAP]):
+            diccAP.update( {lineaLeidaCSV[posicionNombreAP]: {columMinuto: 0}})  # diccionario con AP como clave
         else:
-            if not dic[tok[4]].has_key(minuto):
-                dic[tok[4]].update( {minuto: 0} )
-        dic[tok[4]][minuto] = int(dic[tok[4]][minuto]) + 1
+            if not diccAP[lineaLeidaCSV[posicionNombreAP]].has_key(columMinuto):
+                diccAP[lineaLeidaCSV[posicionNombreAP]].update( {columMinuto: 0} )
+        diccAP[lineaLeidaCSV[posicionNombreAP]][columMinuto] = int(diccAP[lineaLeidaCSV[posicionNombreAP]][columMinuto]) + 1
 
-        #print dic[tok[4]][strip(tok[10])]
+        #print diccAP[lineaLeidaCSV[posicionNombreAP]][strip(lineaLeidaCSV[10])]
 
-    #print dic
-    print ("Total de AP: ",len(dic))
+    #print diccAP
+    print ("Total de AP: ",len(diccAP))
 
-    for AP in dic:
+    for AP in diccAP:
 
         #reinicializamos variables
         mini=100
         maximo=0
-        total=0
+        totalDispEnHora=0
         numeroLectura = 0
 
-        for nDev in dic[AP].values():
-            #print nDev
+        #Calculo de minimo, maximo y total
+        for nDev in diccAP[AP].values():
+            
             if nDev<mini:
                 mini=nDev
             if nDev>maximo:
                 maximo=nDev
-            total=total+nDev
+            totalDispEnHora=totalDispEnHora+nDev
 
         #Se revisa si el numero de registros en una hora fue de 30
         #Repara el error de cuando en un AP no se registran cero usuarios
-        minutosRegistrados = len(dic[AP].values())
+        minutosRegistrados = len(diccAP[AP].values())
         minutosRegCompletos = 30
         if minutosRegistrados < minutosRegCompletos:
             mini = 0
+
         #calculo del promedio
-        promedio = int(total)/int(minutosRegistrados)
+        promedio = int(totalDispEnHora)/int(minutosRegistrados)
 
         #Nomenclatura de stringResultados:
-        # nombre del AP, minimo de conexiones, maximo de conexiones, suma total de conexiones, numero de conexiones registradas, promedio, anio, mes, dia, hora
-        stringResultados = str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(promedio)+','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
+        # nombre del AP, minimo de conexiones, maximo de conexiones, suma totalDispEnHora de conexiones, numero de conexiones registradas, promedio, anio, mes, dia, hora
+        stringResultados = str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(totalDispEnHora) +','+ str(len(diccAP[AP].values())) +','+ str(promedio)+','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
 
 
         #nomenclatura del csv de resultados: nombre del archivo_[anio]_[mes].csv
