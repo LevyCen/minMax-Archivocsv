@@ -67,10 +67,12 @@ for directoryFile in listdir("."):
         minutosRegCompletos = 30
         if minutosRegistrados < minutosRegCompletos:
             mini = 0
+        #calculo del promedio
+        promedio = int(total)/int(minutosRegistrados)
 
         #Nomenclatura de stringResultados:
-        # nombre del AP, minimo de conexiones, maximo de conexiones, suma total de conexiones, numero de conexiones registradas, ani, mes, dia, hora
-        stringResultados = str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
+        # nombre del AP, minimo de conexiones, maximo de conexiones, suma total de conexiones, numero de conexiones registradas, promedio, anio, mes, dia, hora
+        stringResultados = str(AP) +','+ str(mini) +','+ str(maximo) +','+ str(total) +','+ str(len(dic[AP].values())) +','+ str(promedio)+','+ str(columnaAnio) +','+ str(columnaMes) +','+ str(columnaDia) +','+ str(columnaHora)+'\n'
 
 
         #nomenclatura del csv de resultados: nombre del archivo_[anio]_[mes].csv
@@ -83,5 +85,4 @@ for directoryFile in listdir("."):
         resultados = open(namefileResult,'a+')
         resultados.write(stringResultados)
         resultados.close()
-
-
+        
