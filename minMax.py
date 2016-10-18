@@ -26,7 +26,7 @@ for directoryFile in listdir("."):
     #Se extrae linea por linea del archivo csv
     for lineaDeCSV in f:
         lineaLeidaCSV = split(lineaDeCSV,',')
-        
+
         columnaAnio =  strip(lineaLeidaCSV[8])
         columnaMes =  strip(lineaLeidaCSV[7])
         columnaDia =  strip(lineaLeidaCSV[6])
@@ -57,7 +57,7 @@ for directoryFile in listdir("."):
 
         #Calculo de minimo, maximo y total
         for nDev in diccAP[AP].values():
-            
+
             if nDev<mini:
                 mini=nDev
             if nDev>maximo:
@@ -72,7 +72,7 @@ for directoryFile in listdir("."):
             mini = 0
 
         #calculo del promedio
-        promedio = int(totalDispEnHora)/int(minutosRegistrados)
+        promedio = int(totalDispEnHora)/int(minutosRegCompletos)
 
         #Nomenclatura de stringResultados:
         # nombre del AP, minimo de conexiones, maximo de conexiones, suma totalDispEnHora de conexiones, numero de conexiones registradas, promedio, anio, mes, dia, hora
@@ -80,7 +80,7 @@ for directoryFile in listdir("."):
 
 
         #nomenclatura del csv de resultados: nombre del archivo_[anio]_[mes].csv
-        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'.csv'
+        namefileResult = 'Resultados_'+ str(columnaAnio) +'_'+ str(columnaMes) +'.txt'
 
         #log de los AP analizados
         print str(AP) + str(columnaAnio) + str(columnaMes)+ str(columnaDia)+ str(columnaHora)
@@ -89,4 +89,3 @@ for directoryFile in listdir("."):
         resultados = open(namefileResult,'a+')
         resultados.write(stringResultados)
         resultados.close()
-        
